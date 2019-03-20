@@ -1,0 +1,14 @@
+Resources: 
+  DataStoreCache:
+    DependsOn: ServerlessStorageSecurityGroup
+    Type: AWS::ElastiCache::CacheCluster
+    Properties:
+      ClusterName: ${self:provider.stage}-${self:custom.project.module}
+      AutoMinorVersionUpgrade: true
+      Engine: redis
+      CacheNodeType: cache.t2.micro
+      NumCacheNodes: 1
+      VpcSecurityGroupIds:
+      - "Fn::GetAtt": ServerlessStorageSecurityGroup.GroupId
+      CacheSubnetGroupName:
+        Ref: ServerlessCacheSubnetGroup

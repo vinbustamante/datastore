@@ -1,0 +1,14 @@
+{
+    "redis": {
+        "host": "localhost",
+        "port": 6379,
+        "db": 0,
+        "defaultCacheInSeconds": 3600
+    },
+    "mongoDb": {
+        "connectionString": "mongodb://localhost:27017/${self:provider.stage}-${self:custom.project.name}-${self:custom.project.module}"
+    },
+    "warm": {
+        "isEnabled": false
+    }
+}

@@ -1,0 +1,71 @@
+service:
+  name: ${self:custom.project.name}-${self:custom.project.module}
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  region: ap-southeast-1
+  memorySize: ${file(../../../infra/provider/${self:provider.stage}.json):server.memory}
+  timeout: 60
+  versionFunctions: false
+  stackName: ${self:provider.stage}-${self:service}
+  stackTags:
+    project: ${self:custom.project.name}
+  vpc:
+    securityGroupIds:
+      - !Ref ServerlessSecurityGroup
+    subnetIds:
+      - !Ref PrivateSubnetA
+  environment:
+    projectName: ${self:custom.project.name, '_defaultProject'}
+    projectStage: ${self:provider.stage}
+    module: ${self:custom.project.module}
+    redis_host: ${file(../../../infra/parameter/${self:provider.stage}.json):redis.host}
+    redis_port: ${file(../../../infra/parameter/${self:provider.stage}.json):redis.port}
+    redis_db: ${file(../../../infra/parameter/${self:provider.stage}.json):redis.db}
+    defaultCacheInSeconds: ${file(../../../infra/parameter/${self:provider.stage}.json):redis.defaultCacheInSeconds} # 8hr
+    mongoDbConnection: ${file(../../../infra/parameter/${self:provider.stage}.json):mongoDb.connectionString}
+
+functions:
+  app:
+    name: ${self:provider.stage}-${self:custom.project.name}-${self:custom.project.module}
+    handler: lambda.handler
+    events:
+      - schedule:
+          name: ${self:provider.stage}-${self:service}-warm-event
+          rate: rate(5 minutes)
+          enabled: ${file(../../../infra/parameter/${self:provider.stage}.json):warm.isEnabled}
+          input: '{"path":"/authentication/warm","httpMethod":"GET","headers":{"Content-Type":"application/json"},"isBase64Encoded":false,"body":"{}"}'
+      - http: # all routes get proxied to the Express router
+          path: /{proxy+}
+          method: ANY
+          cors:
+            - enabled: true
+              origin: '*'
+              headers:
+                - 'Access-Control-Allow-Origin'
+
+custom:
+  project:
+    accountId: !Ref AWS::AccountId
+    name: datastore
+    module: kvp
+
+  elasticCache:
+    remote:
+      "Fn::GetAtt": [DataStoreCache, RedisEndpoint.Address]
+
+  webpack:
+    webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
+    includeModules: false   # Node modules configuration for packaging
+    packager: 'npm'   # Packager that will be used to package your external modules
+
+resources:
+  - ${file(../../../infra/vpc/vpc-${self:provider.stage}.yml)}
+  - ${file(../../../infra/elasticcache/datastore.yml)}
+  - ${file(./output.yml)}
