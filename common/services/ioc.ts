@@ -12,6 +12,7 @@ import ErrorHandlerService from './implementation/ErrorHandlerService';
 
 export function configureCommonServices(container: Container): Container {
     container.bind<any>(types.EnvironmentVariables).toConstantValue(process.env);
+    container.bind<any>(types.LogProvider).toConstantValue(console);
     container.bind<IUtilService>(types.IUtilService).to(UtilService);
     container.bind<ILogService>(types.ILogService).to(LogService);
     container.bind<IErrorHandlerService>(types.IErrorHandlerService).to(ErrorHandlerService);

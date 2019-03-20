@@ -7,6 +7,9 @@ import commonServiceTypes from '../types';
 @injectable()
 export default class LogService implements ILogService {
 
+    @inject(commonServiceTypes.LogProvider)
+    protected _logProvider: any;
+
     @inject(commonServiceTypes.IUtilService)
     protected _utilService: IUtilService;
 
@@ -22,18 +25,18 @@ export default class LogService implements ILogService {
 
     info(message: any): Promise<void> {
         let payload = this._utilService.toJson(message);
-        console.info(payload);
+        this._logProvider.info(payload);
         return Promise.resolve();
     }
 
     error(message: any): Promise<void> {
-        console.error(message);
+        this._logProvider.error(message);
         return Promise.resolve();
     }
 
     warning(message: any): Promise<void> {
         let payload = this._utilService.toJson(message);
-        console.warn(payload);
+        this._logProvider.warn(payload);
         return Promise.resolve();
     }
 }
