@@ -1,6 +1,5 @@
-import { injectable, inject } from 'inversify';
+import { injectable } from 'inversify';
 import IUtilService from '../IUtilService';
-import commonServiceTypes from '../types';
 
 @injectable()
 export default class UtilService implements IUtilService {

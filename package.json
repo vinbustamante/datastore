@@ -4,14 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc -r lcov -e .ts -x \"*.spec.ts\" jasmine-ts --config=jasmine.json && nyc report"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/sinon": "^7.0.10",
     "cors": "^2.8.5",
     "inversify": "^5.0.1",
-    "inversify-express-utils": "^6.3.2"
+    "inversify-express-utils": "^6.3.2",
+    "reflect-metadata": "^0.1.13",
+    "sinon": "^7.3.0"
+  },
+  "devDependencies": {
+    "@types/expect": "^1.20.4",
+    "@types/mocha": "^5.2.6",
+    "expect": "^24.5.0",
+    "jasmine": "^3.3.1",
+    "jasmine-ts": "^0.3.0",
+    "nyc": "^13.3.0",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.4000"
   }
 }

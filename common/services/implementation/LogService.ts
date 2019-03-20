@@ -8,7 +8,7 @@ import commonServiceTypes from '../types';
 export default class LogService implements ILogService {
 
     @inject(commonServiceTypes.IUtilService)
-    private _utilService: IUtilService;
+    protected _utilService: IUtilService;
 
     log(logType: LogType, message: any): Promise<void> {
         if (logType === LogType.error) {

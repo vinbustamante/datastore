@@ -4,7 +4,8 @@
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
   "scripts": {
-    "start": "sls offline --stage local --useSeparateProcesses --port 5000 start"
+    "start": "sls offline --stage local --useSeparateProcesses --port 5000 start",
+    "test": "nyc -r lcov -e .ts -x \"*.spec.ts\" jasmine-ts --config=jasmine.json && nyc report"
   },
   "dependencies": {
     "express": "^4.16.4",

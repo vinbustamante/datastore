@@ -1,5 +1,5 @@
 import * as express from "express";
-const cors = require('cors')
+const cors = require('cors');
 import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import * as bodyParser from 'body-parser';
