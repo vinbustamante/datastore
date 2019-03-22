@@ -41,17 +41,17 @@ describe('LogService', function() {
 
     describe('log', () => {        
         it('should call info method if logType is info', () => {
-            _logService.log('hello world', LogType.info);
+            _logService.log(LogType.info, 'hello world');
             expect(_mocks[FUNC_NAME.consoleInfo].calledOnce === true).toBe(true);
         });
 
         it('should call error method if logType is error', () => {
-            _logService.log('hello world', LogType.error);
+            _logService.log(LogType.error, 'hello world');
             expect(_mocks[FUNC_NAME.consoleError].calledOnce === true).toBe(true);
         });
 
         it('should call warning method if logType is warning', () => {
-            _logService.log('hello world', LogType.warning);
+            _logService.log(LogType.warning, 'hello world');
             expect(_mocks[FUNC_NAME.consoleWarn].calledOnce === true).toBe(true);
         });
     });

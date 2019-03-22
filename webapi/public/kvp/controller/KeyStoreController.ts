@@ -1,15 +1,18 @@
 import { controller, httpPost, httpGet } from 'inversify-express-utils';
-//import { inject } from 'inversify';
+import * as express from 'express';
+import iocContainer from '../iocContainer';
+import decodePathInterceptor from '../../../../common/interceptor/decodePathInterceptor';
 
-@controller('/object')
+@controller('/')
 export default class KeyStoreController {
-    @httpGet("/")
-    get() {
+    @httpGet("/:paths?*", decodePathInterceptor(iocContainer))
+    get(request: express.Request) {        
         return 'get';
     }
 
-    @httpPost("/")
-    post() {
+    @httpPost("/:paths?*", decodePathInterceptor(iocContainer))
+    post(request: express.Request) {
+        let req: any = request;       
         return 'post';
     }
 }
