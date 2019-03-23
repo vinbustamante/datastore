@@ -45,7 +45,7 @@ export default abstract class MongoDbRepositoryBase<TModel> {
             let schemaModel = this._getSchemaModel();
             let query = schemaModel.findOne(criteria);
             if (sortCriteria) {
-                query = query.sort(sortCriteria);
+                query = query.sort(sortCriteria);                
             }
             query.exec((err, result) => {
                 if (err) {

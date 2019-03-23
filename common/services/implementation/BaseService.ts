@@ -1,19 +1,19 @@
 import { injectable, inject } from 'inversify';
 import IUtilService from '../IUtilService';
-import IConfigService from '../IConfigService';
-import ILogService from '../ILogService';
+// import IConfigService from '../IConfigService';
+// import ILogService from '../ILogService';
 import commonServiceTypes from '../types';
 
 @injectable()
 export default abstract class BaseService<TDto> {
-    @inject(commonServiceTypes.IConfigService)
-    protected _configService: IConfigService;
+    // @inject(commonServiceTypes.IConfigService)
+    // protected _configService: IConfigService;
 
     @inject(commonServiceTypes.IUtilService)
     protected _utilService: IUtilService;
 
-    @inject(commonServiceTypes.ILogService)
-    protected _logService: ILogService;
+    // @inject(commonServiceTypes.ILogService)
+    // protected _logService: ILogService;
 
     protected abstract getDtoClass(): Function;
 

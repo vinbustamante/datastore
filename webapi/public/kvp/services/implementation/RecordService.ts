@@ -18,7 +18,7 @@ export default class RecordService extends BaseService<RecordDto> implements IRe
     @inject(commonServiceTypes.IDateService)
     private _dateService: IDateService;
 
-    getDtoClass(): any {
+    getDtoClass(): Function {
         return RecordDto;
     }
 
