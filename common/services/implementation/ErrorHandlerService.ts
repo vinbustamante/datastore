@@ -9,6 +9,7 @@ import BadRequestApplicationException from '../../exception/BadRequestApplicatio
 import ServiceException from '../exception/ServiceException';
 import AccessDeniedServiceException from '../exception/AccessDeniedServiceException';
 import DbException from '../../repositories/exception/DbException';
+import NotFoundApplicationException from '../../exception/NotFoundApplicationException';
 
 @injectable()
 export default class ErrorHandlerService implements IErrorHandlerService {
@@ -32,6 +33,9 @@ export default class ErrorHandlerService implements IErrorHandlerService {
             message = error;
         } else if(error instanceof BadRequestApplicationException) {
             status = '400';
+            message = error.message;
+        } else if(error instanceof NotFoundApplicationException) {
+            status = '404';
             message = error.message;
         } else if (error instanceof ApplicationException) {
             message = error.message;

@@ -1,5 +1,5 @@
 export default class ObjectIdDto {
     workspace: string;
-    id: string;
+    key: string;
     version: string;
 }

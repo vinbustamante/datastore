@@ -4,7 +4,10 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import * as bodyParser from 'body-parser';
 import IErrorHandlerService from '../../../common/services/IErrorHandlerService';
 import commonServiceTypes from '../../../common/services/types';
-import { configureCommonServices } from '../../../common/services/ioc';
+import configureCommonServices from '../../../common/services/ioc';
+import configureCommonRepositories from '../../../common/repositories/ioc';
+import configureKvpServices from './services/ioc';
+import configureKvpRepositories from './repositories/ioc';
 import iocContainer from './iocContainer';
 
 //list of controller
@@ -12,6 +15,9 @@ import './controller/KeyStoreController';
 
 const app: express.Application = express();
 configureCommonServices(iocContainer);
+configureCommonRepositories(iocContainer);
+configureKvpServices(iocContainer);
+configureKvpRepositories(iocContainer);
 
 // @ts-ignore
 // app.use(function(req, res, next) {
