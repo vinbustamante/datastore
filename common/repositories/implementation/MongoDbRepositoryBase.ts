@@ -23,15 +23,16 @@ export default abstract class MongoDbRepositoryBase<TModel> {
 
     protected find(criteria: any): Promise<TModel[]> {
         return new Promise((resolve, reject) => {
-            let schemaModel = this._getSchemaModel();
+            let schemaModel = this._getSchemaModel();          
             schemaModel.find(criteria, (err, results) => {
                 if (err) {
                     reject(new DbException(err));
                 } else {
                     let models: TModel[] = [];
-                    if (results) {                        
+                    if (results) {                       
                         models = results.map(dbModel => {
-                            let model = this._utilService.createObjectFrom(this.getModelClass(), dbModel.toObject());
+                            let sourceData = dbModel.toObject();
+                            let model = this._utilService.createObjectFrom(this.getModelClass(), sourceData);
                             return model;
                         });
                     }

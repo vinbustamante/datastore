@@ -16,7 +16,9 @@ export default class MockHelper {
         let service = {
             toJson: sinon.spy(),
             toObject: sinon.spy(),
-            createObjectFrom: sinon.spy(),
+            //createObjectFrom: sinon.spy(),
+            // @ts-ignore
+            createObjectFrom: (klass: Function, objectSource: any): any => {},
             createObject: sinon.spy(),
             getMapFields: (): any => {
             },
@@ -27,6 +29,12 @@ export default class MockHelper {
         };
         let getMapFields = sinon.stub(service, 'getMapFields');
         service['_mockGetMapFields'] = getMapFields;
+
+        let createObjectFromStub = sinon.stub(service, 'createObjectFrom');
+        // @ts-ignore
+        createObjectFromStub.callsFake((kclass: any, sourceData: any) => {
+            return sourceData;
+        });
         return service;
     }
 
@@ -82,6 +90,10 @@ export default class MockHelper {
             saveStub.returns(Promise.resolve());
             model._mockSave = saveStub;
         };
+        // @ts-ignore
+        model.find = () => {
+           
+        };
         model.findOne = () => {
         };
         model.findOneAndUpdate = () => {
@@ -98,9 +110,17 @@ export default class MockHelper {
         let findOneAndUpdate = sinon.stub(model, 'findOneAndUpdate');
         findOneAndUpdate.returns(Promise.resolve());
 
+        let findStub = sinon.stub(model, 'find');
+        // @ts-ignore
+        findStub.callsFake((criteria: any, callback: any) => {
+            callback(err, data);
+        });
+           
+
         model._mockSort = sortQuerySub;
         model._mockFindOneAndUpdate = findOneAndUpdate;
         model._mockSave = saveStub;
+        model._mockFind = findStub;
         return model;
     }
 
