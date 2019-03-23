@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import IUtilService from '../../services/IUtilService';
 import commonServiceTypes from '../../services/types';
 import commonRepositoryTypes from '../types';
+import DbException from '../exception/DbException';
 
 @injectable()
 export default abstract class MongoDbRepositoryBase<TModel> {
@@ -25,7 +26,7 @@ export default abstract class MongoDbRepositoryBase<TModel> {
             let schemaModel = this._getSchemaModel();
             schemaModel.find(criteria, (err, results) => {
                 if (err) {
-                    reject(err);
+                    reject(new DbException(err));
                 } else {
                     let models: TModel[] = [];
                     if (results) {                        
@@ -49,7 +50,7 @@ export default abstract class MongoDbRepositoryBase<TModel> {
             }
             query.exec((err, result) => {
                 if (err) {
-                    reject(err);
+                    reject(new DbException(err));
                 } else {
                     let model: TModel;
                     if (result) {

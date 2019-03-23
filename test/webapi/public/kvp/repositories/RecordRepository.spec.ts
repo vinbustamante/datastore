@@ -7,6 +7,7 @@ import IRecordRepository from '../../../../../webapi/public/kvp/repositories/IRe
 import RecordRepository from '../../../../../webapi/public/kvp/repositories/implementation/RecordRepository';
 import RecordQueryCriteriaModel from '../../../../../webapi/public/kvp/repositories/model/RecordQueryCriteriaModel';
 import RecordModel from '../../../../../webapi/public/kvp/repositories/model/RecordModel';
+import DbException from '../../../../../common/repositories/exception/DbException';
 
 describe('RecordRepository', () => {
     let _utilService: IUtilService;
@@ -33,6 +34,22 @@ describe('RecordRepository', () => {
             expect(_dbConnection._mockModel.findOne.calledOnce).toBe(true); // only 1 record is needed
             expect(_dbConnection._mockModel._mockSort.calledOnce).toBe(true); // this is important to be called since it should return latest record
             expect(_utilService.createObjectFrom['calledOnce']).toBe(true); //required to do conversion from source data to model
+        });
+        
+        it('should throw DbException if there was an error', async () => {
+            let errorMessage = 'there was an error accessing db';
+            let criteria: RecordQueryCriteriaModel = {
+                workspace: 'employees',
+                key : 'emp-1',
+                version : 1
+            };
+            try {
+                _dbConnection = mockHelper.dbConnection({}, errorMessage);
+                _recordRepository['_dbConnection'] = _dbConnection;
+                await _recordRepository.getByCriteria(criteria);                
+            } catch(err) {
+                expect(err instanceof DbException).toBe(true);
+            }
         });
     });
 

@@ -45,23 +45,23 @@ export default class MockHelper {
         };
     }
 
-    static dbConnection(): any {
+    static dbConnection(data?: any, err?: any): any {
         let db: any = {
             model: (): any => {
                 //return MockHelper.dbModel();
             }
         };
         let modelFuncStub = sinon.stub(db, 'model');
-        let model = MockHelper.dbModel();
+        let model = MockHelper.dbModel(data, err);
         modelFuncStub.returns(model);
         db._mockModel = model;
         return db;
     }
 
-    static dbModel(data: any = {}): any {
+    static dbModel(data: any = {}, err?: any): any {
         let execQuery = {
-            exec: (callback): any => {
-                callback(null, {
+            exec: (callback): any => {                
+                callback(err, {
                     toObject: () => {
                         return data;
                     }
