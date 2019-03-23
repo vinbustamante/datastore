@@ -1,0 +1,20 @@
+Outputs:
+  LambdaArn:
+    Value:
+      Fn::Join:
+        - ""
+        - - "arn:aws:lambda:"
+          - ${self:provider.region}
+          - ":"
+          - ${self:custom.project.accountId}
+          - ":function:"
+          - ${self:provider.stage}-${self:service}
+  SecurityGroupId:
+    Value: !Ref ServerlessSecurityGroup
+    # Export:
+    #   Name: SecurityGroupId
+  SubnetPrivateSubnetA:
+    Value: !Ref PrivateSubnetA
+  RedisInstance:
+    Value:
+      "Fn::GetAtt": [AuthCache, RedisEndpoint.Address]

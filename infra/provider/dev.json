@@ -1,0 +1,6 @@
+{
+    "stage": "dev",
+    "server": {
+        "memory": 256
+    }
+}

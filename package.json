@@ -1,0 +1,33 @@
+{
+  "name": "datastore",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc -r lcov -e .ts -x \"*.spec.ts\" jasmine-ts --config=jasmine.json && nyc report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/sinon": "^7.0.10",
+    "cors": "^2.8.5",
+    "inversify": "^5.0.1",
+    "inversify-express-utils": "^6.3.2",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.19",
+    "reflect-metadata": "^0.1.13",
+    "sinon": "^7.3.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/expect": "^1.20.4",
+    "@types/mocha": "^5.2.6",
+    "expect": "^24.5.0",
+    "jasmine": "^3.3.1",
+    "jasmine-ts": "^0.3.0",
+    "nyc": "^13.3.0",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.4000"
+  }
+}

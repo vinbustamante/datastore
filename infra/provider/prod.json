@@ -1,0 +1,7 @@
+{
+    "stage": "prod",
+    "region": "ap-southeast-1",
+    "server": {
+        "memory": 512        
+    }
+}
