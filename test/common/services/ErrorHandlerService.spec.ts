@@ -2,13 +2,14 @@ import 'reflect-metadata';
 import expect = require('expect');
 import * as _ from 'underscore';
 import * as sinon from 'sinon';
-import IErrorHandlerService from '../../common/services/IErrorHandlerService';
-import ErrorHandlerService from '../../common/services/implementation/ErrorHandlerService';
-import ServiceException from '../../common/services/exception/ServiceException';
-import DbException from '../../common/repositories/exception/DbException';
-import ApplicationException from '../../common/exception/ApplicationException';
-import BadRequestApplicationException from '../../common/exception/BadRequestApplicationException';
-import AccessDeniedServiceException from '../../common/services/exception/AccessDeniedServiceException';
+import IErrorHandlerService from '../../../common/services/IErrorHandlerService';
+import ErrorHandlerService from '../../../common/services/implementation/ErrorHandlerService';
+import ServiceException from '../../../common/services/exception/ServiceException';
+import DbException from '../../../common/repositories/exception/DbException';
+import ApplicationException from '../../../common/exception/ApplicationException';
+import BadRequestApplicationException from '../../../common/exception/BadRequestApplicationException';
+import AccessDeniedServiceException from '../../../common/services/exception/AccessDeniedServiceException';
+import NotFoundApplicationException from '../../../common/exception/NotFoundApplicationException';
 
 describe('ErrorHandlerService', function () {
     let _errorHandlerService: IErrorHandlerService;
@@ -120,6 +121,22 @@ describe('ErrorHandlerService', function () {
             expect(_.isObject(body)).toBe(true);
             expect(body.message === errorMessage).toBe(true);
             expect(logException instanceof BadRequestApplicationException).toBe(true);
+            expect(logException.message === errorMessage).toBe(true);
+        });
+
+        it('should support NotFoundApplicationException', () => {
+            let request: any = {};
+            let errorMessage = "access denied from user";
+            let exception = new NotFoundApplicationException(errorMessage);
+            _errorHandlerService.handle(exception, request, _mockResponse, () => { });
+            let status = _mockResponse.status.getCall(0).args[0];
+            let body = _mockResponse.send.getCall(0).args[0];
+            let logException = _mockLogService.error.getCall(0).args[0];
+
+            expect(status === 404).toBe(true);
+            expect(_.isObject(body)).toBe(true);
+            expect(body.message === errorMessage).toBe(true);
+            expect(logException instanceof NotFoundApplicationException).toBe(true);
             expect(logException.message === errorMessage).toBe(true);
         });
     });

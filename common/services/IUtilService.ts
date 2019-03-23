@@ -8,6 +8,6 @@ export default interface IUtilService {
     getMapFields(modelClass: any): FieldMap[];
     setMapField(target: any, fieldName: string, dbFieldName?: string)
     getTablename(modelClass: any): string;
-    setTablename(target: any, tablename: string);
+    setTablename(target: any, tablename?: string);
     getClassname(instance: any): string;    
 }

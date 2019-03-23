@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 const expect = require('expect');
 import * as sinon from 'sinon';
-import LogService from '../../common/services/implementation/LogService';
-import UtilService from '../../common/services/implementation/UtilService';
-import LogType from '../../common/enum/LogType';
+import LogService from '../../../common/services/implementation/LogService';
+import UtilService from '../../../common/services/implementation/UtilService';
+import LogType from '../../../common/enum/LogType';
 
 const FUNC_NAME = {
     consoleInfo:  'console-info',

@@ -41,7 +41,7 @@ export default class UtilService implements IUtilService {
                         model[fieldName] = objectSource[dbFieldName];
                     }                  
                 });
-            }            
+            }
         }
         return model;
     }
@@ -57,14 +57,16 @@ export default class UtilService implements IUtilService {
     }
 
     setMapField(target: any, fieldName: string, dbFieldName?: string): FieldMap {
-        if(target.$__mapFields === undefined) {
-            target.$__mapFields = [];
-        }
-        dbFieldName = dbFieldName || fieldName;
         let fieldMap = new FieldMap();
-        fieldMap.destinationField = fieldName;
-        fieldMap.sourceField = dbFieldName;
-        target.$__mapFields.push(fieldMap);
+        if (target) {
+            if(target.$__mapFields === undefined) {
+                target.$__mapFields = [];
+            }
+            dbFieldName = dbFieldName || fieldName;        
+            fieldMap.destinationField = fieldName;
+            fieldMap.sourceField = dbFieldName;
+            target.$__mapFields.push(fieldMap);
+        }
         return fieldMap;
     }
 
@@ -76,8 +78,8 @@ export default class UtilService implements IUtilService {
         return tableName;
     }
 
-    setTablename(target: any, tablename: string) {
-        if (target && tablename) {
+    setTablename(target: any, tablename?: string) {
+        if (target) {
             if (!tablename) {
                 tablename = this.getClassname(target);
                 tablename = tablename.replace('Model','').toLowerCase();
@@ -90,7 +92,7 @@ export default class UtilService implements IUtilService {
 
     getClassname(instance: any): string {
         let clsssName: string = '';
-        if (instance) {
+        if (instance !== undefined && instance !== null) {
             let typeName = typeof instance;
             if(typeName === 'object') {
                 clsssName = instance.constructor.name;
