@@ -93,7 +93,20 @@ GET http://localhost:5000/employees/key1/1553367597
 
 ```
 
+## how to deploy to Cloud Provider
+```
+make sure the aws commandline tools is properly setuo by following instruction from https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
+
+# goto webapi/public/kvp
+sls deploy -s prod
+```
+
 ## why use Layer Architecture
 This arhitecture is use so that to minimize the effect of changing one to component. For example currently we are using MongoDB as our data store and in later time should we decide to use couchdb or mysql. We only have to update Repository Layer and the rest of the component don't needed to be updated.
 
 ![Serverless Architecture](assets/architecture.png)
+
+## Todo List - For improvement
+* currently it's running in the macbook pro with [ngrok](https://ngrok.com/ "link title") as proxy to make it public. So performance is minimal. This approach is choosen since a lot of components from AWS is use in this project to demonstrate a real life setup. But deploying it might fall under free tier anymore.
+* Repository Layer should use the "workspace" as physical partitioning so that those workspace that is huge amount of records will not affect others
+* use redis/memcache for caching
