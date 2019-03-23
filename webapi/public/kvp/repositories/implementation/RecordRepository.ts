@@ -1,17 +1,12 @@
-import { injectable, inject } from 'inversify';
+import { injectable } from 'inversify';
 import * as mongoose from 'mongoose';
 import RecordModel from '../model/RecordModel';
 import IRecordRepository from '../IRecordRepository';
 import MongoDbRepositoryBase from '../../../../../common/repositories/implementation/MongoDbRepositoryBase';
-import IDateService from '../../../../../common/services/IDateService';
-import commonServiceTypes from '../../../../../common/services/types';
 import RecordQueryCriteriaModel from '../model/RecordQueryCriteriaModel';
 
 @injectable()
 export default class RecordRepository extends MongoDbRepositoryBase<RecordModel> implements IRecordRepository {
-
-    @inject(commonServiceTypes.IDateService)
-    private _dateService: IDateService;
 
     getModelClass(): Function {
         return RecordModel;
@@ -37,23 +32,21 @@ export default class RecordRepository extends MongoDbRepositoryBase<RecordModel>
                 required: true
             },
             version: {
-                type: String,
+                type: Number,
                 required: true
             }
         });
     }
 
     getByCriteria(criteria: RecordQueryCriteriaModel): Promise<RecordModel> {
-        // if version is not supplied, assume get the latest versio
-        if (criteria.version) {
-            criteria.version = this._dateService.getCurrentUnixTimestamp();
-        }
         return super.findOne({
-            workSpace: criteria.workspace,
+            workspace: criteria.workspace,
             key: criteria.key,
             version: {
                 $lte: criteria.version
             }
+        }, {
+            version: -1
         });
     }
 

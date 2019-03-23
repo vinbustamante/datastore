@@ -19,7 +19,7 @@ export default class KeyStoreController extends BaseController {
     private _recordService: IRecordService;
 
     @httpGet("/:paths?*", decodePathInterceptor(iocContainer))
-    async get(request: express.Request) {
+    get(request: express.Request) {
         return super.returnValue(async () => {
             let objectId: ObjectIdViewModel = (<any>request).objectId;
             let criteria: RecordQueryCriteriaDto = {
@@ -27,8 +27,13 @@ export default class KeyStoreController extends BaseController {
                 key: objectId.key,
                 version: objectId.version
             };
-            let record: RecordDto = await this._recordService.getByCriteria(criteria);
-            return record;
+            let viewModel: any = undefined;
+            let record: RecordDto = await this._recordService.getByCriteria(criteria);            
+            if (record) {
+                viewModel = {};
+                viewModel[record.key] = record.value;
+            }
+            return viewModel;
         });
     }
 
@@ -58,7 +63,6 @@ export default class KeyStoreController extends BaseController {
         record.workspace = objectId.workspace;
         record.key = objectId.key;
         record.value = payload;
-        record.version = Date.now();
         let updatedRecord = await this._recordService.save(record);
         return this.toViewModel(updatedRecord, RecordViewModel);
     }

@@ -40,13 +40,14 @@ export default abstract class MongoDbRepositoryBase<TModel> {
         });
     }
 
-    async findOne(criteria: any): Promise<TModel> {
-        // let dataModel: any = null;
-        // let schemaModel = this._getSchemaModel();       
-        // return dataModel;
+    async findOne(criteria: any, sortCriteria?: any): Promise<TModel> {
         return new Promise((resolve, reject) => {
             let schemaModel = this._getSchemaModel();
-            schemaModel.findOne(criteria, (err, result) => {
+            let query = schemaModel.findOne(criteria);
+            if (sortCriteria) {
+                query = query.sort(sortCriteria);
+            }
+            query.exec((err, result) => {
                 if (err) {
                     reject(err);
                 } else {
