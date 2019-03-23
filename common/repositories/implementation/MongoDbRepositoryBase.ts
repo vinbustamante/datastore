@@ -69,7 +69,7 @@ export default abstract class MongoDbRepositoryBase<TModel> {
             mapFields.forEach(field => {
                 dbModel[field.sourceField] = record[field.destinationField];
             });
-            if (dbModel._id) {
+            if (dbModel._id) {               
                 await ModelClass.findOneAndUpdate({_id: dbModel._id}, dbModel, {upsert:true});
             } else {
                 dbModel._id = uuidv1();

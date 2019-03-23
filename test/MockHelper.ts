@@ -13,17 +13,21 @@ export default class MockHelper {
     }
 
     static utilService(): IUtilService {
-        return {
+        let service = {
             toJson: sinon.spy(),
             toObject: sinon.spy(),
             createObjectFrom: sinon.spy(),
             createObject: sinon.spy(),
-            getMapFields: sinon.spy(),
+            getMapFields: (): any => {
+            },
             setMapField: sinon.spy(),
             getTablename: sinon.spy(),
             setTablename: sinon.spy(),
             getClassname: sinon.spy()
         };
+        let getMapFields = sinon.stub(service, 'getMapFields');
+        service['_mockGetMapFields'] = getMapFields;
+        return service;
     }
 
     static logService(): ILogService {
@@ -71,15 +75,32 @@ export default class MockHelper {
         };
         let sortQuerySub = sinon.stub(sortQuery, 'sort');
         sortQuerySub.returns(execQuery);
-
-        let model: any = {
-            findOne: (): any => {
-            }
+     
+        let model: any = function() {
+            this.save = (): any => {}
+            let saveStub = sinon.stub(this, 'save');
+            saveStub.returns(Promise.resolve());
+            model._mockSave = saveStub;
         };
+        model.findOne = () => {
+        };
+        model.findOneAndUpdate = () => {
+        };
+        model.save = () => {
+        };
+
+        let saveStub = sinon.stub(model, 'save');
+        saveStub.returns(Promise.resolve());
+
         let findOneStub = sinon.stub(model, 'findOne');
         findOneStub.returns(sortQuery);
 
+        let findOneAndUpdate = sinon.stub(model, 'findOneAndUpdate');
+        findOneAndUpdate.returns(Promise.resolve());
+
         model._mockSort = sortQuerySub;
+        model._mockFindOneAndUpdate = findOneAndUpdate;
+        model._mockSave = saveStub;
         return model;
     }
 
