@@ -17,4 +17,4 @@ Outputs:
     Value: !Ref PrivateSubnetA
   RedisInstance:
     Value:
-      "Fn::GetAtt": [AuthCache, RedisEndpoint.Address]
+      "Fn::GetAtt": [DataStoreCache, RedisEndpoint.Address]
