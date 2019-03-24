@@ -33,6 +33,13 @@ These instructions will get you a copy of the project up and running on your loc
 * execute npm install, this will install lib particular to the project
 * to run locally execute npm start
 
+## to check test coverage
+```
+npm test
+```
+![Serverless Architecture](assets/test-coverage.png)
+
+
 ## Endpoints Request Sample
 
 endpoint format  : http://[host]:[port]/[workspace]/[key]/[version]?=timestamp=[version]
