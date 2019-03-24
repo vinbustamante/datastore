@@ -6,6 +6,8 @@ extensible Datastore that can support sharding using name space
 * [Serverless Framework](https://serverless.com/ "link title")
 * [Serverless Offline](https://github.com/dherault/serverless-offline "link title")
 * [Inversion Of Control](http://inversify.io/ "link title")
+* [Jasmine Unit Test](https://jasmine.github.io/ "link title")
+* [Nyc Test Coverage Framework](https://github.com/istanbuljs/nyc "link title")
 * [ExpressJS](https://expressjs.com/ "link title")
 * [Webpack](https://webpack.js.org/ "link title")
 * [MongoDB](https://www.mongodb.com/ "link title")
@@ -13,7 +15,9 @@ extensible Datastore that can support sharding using name space
 * [AWS Cloud Formation](https://aws.amazon.com/cloudformation/ "link title")
 * [AWS Api Gateway](https://aws.amazon.com/api-gateway/ "link title")
 * [AWS Lambda](https://aws.amazon.com/lambda/ "link title")
+* [AWS Cloudwatch](https://aws.amazon.com/cloudwatch/ "link title")
 * [Layer Architecture](https://en.wikipedia.org/wiki/Multitier_architecture "link title")
+* [ngrok - local testing service expose to public](https://ngrok.com/ "link title")
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
